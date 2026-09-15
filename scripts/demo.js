@@ -19,7 +19,12 @@ const demoEnv = {
   DRIVER_PORT: "5184",
   ADMIN_PORT: "5185",
   CLIENT_URL:
-    "http://localhost:5183,http://localhost:5184,http://localhost:5185",
+    [
+      "http://localhost:5183",
+      "http://localhost:5184",
+      "http://localhost:5185",
+      process.env.CLIENT_URL,
+    ].filter(Boolean).join(","),
 };
 const seed = spawn(process.execPath, ["server/src/seed.js"], {
   env: demoEnv,
