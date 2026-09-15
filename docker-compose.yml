@@ -1,0 +1,45 @@
+services:
+  mongo:
+    image: mongo:7
+    command: [mongod, --replSet, rs0, --bind_ip_all]
+    ports: ["127.0.0.1:27017:27017"]
+    volumes: [mongo-data:/data/db]
+    healthcheck:
+      test: [CMD, mongosh, --quiet, --eval, "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  mongo-init:
+    image: mongo:7
+    depends_on:
+      mongo: { condition: service_healthy }
+    entrypoint: [mongosh, "mongodb://mongo:27017", --quiet, --eval]
+    command:
+      [
+        "try { rs.status() } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }; while (!db.hello().isWritablePrimary) { sleep(1000) }",
+      ]
+    restart: "no"
+  backend:
+    build: { context: ., target: api }
+    env_file: .env
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongo:27017/ride_nepaljung?replicaSet=rs0
+      PORT: 4000
+    ports: ["127.0.0.1:4000:4000"]
+    depends_on:
+      mongo-init: { condition: service_completed_successfully }
+  passenger-web:
+    build: { context: ., target: web, args: { APP_ROLE: passenger } }
+    ports: ["127.0.0.1:5173:80"]
+    depends_on: [backend]
+  driver-web:
+    build: { context: ., target: web, args: { APP_ROLE: driver } }
+    ports: ["127.0.0.1:5174:80"]
+    depends_on: [backend]
+  admin-web:
+    build: { context: ., target: web, args: { APP_ROLE: admin } }
+    ports: ["127.0.0.1:5175:80"]
+    depends_on: [backend]
+volumes:
+  mongo-data:
