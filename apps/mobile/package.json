@@ -1,0 +1,21 @@
+{
+  "name": "@ride-nepaljung/mobile",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start --go --lan",
+    "android": "expo start --go --android",
+    "build": "expo export --platform android --platform ios"
+  },
+  "dependencies": {
+    "expo": "~57.0.22",
+    "expo-constants": "~57.0.18",
+    "expo-location": "~57.0.17",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-maps": "1.27.2",
+    "react-native-safe-area-context": "~5.7.0"
+  }
+}

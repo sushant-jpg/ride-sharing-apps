@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Ride Nepaljung",
+    "slug": "ride-nepaljung",
+    "scheme": "ridenepaljung",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [["expo-location", {"locationWhenInUsePermission": "Allow Ride Nepaljung to use your location for pickup and active driver trips."}]],
+    "ios": {"supportsTablet": true},
+    "android": {"package": "com.ridenepaljung.mobile"}
+  }
+}

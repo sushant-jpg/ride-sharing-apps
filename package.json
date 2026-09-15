@@ -9,6 +9,8 @@
     "shared"
   ],
   "scripts": {
+    "start": "npm run start -w @ride-nepaljung/mobile --",
+    "dev:mobile": "npm run start -w @ride-nepaljung/mobile --",
     "dev": "concurrently -n api,passenger,driver,admin -c green,blue,magenta,yellow \"npm run dev -w server\" \"npm run dev -w apps/passenger-web\" \"npm run dev -w apps/driver-web\" \"npm run dev -w apps/admin-web\"",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test -w server",
